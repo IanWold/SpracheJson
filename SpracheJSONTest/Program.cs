@@ -14,8 +14,16 @@ namespace SpracheJSONTest
 
             var Parsed = JSONParser.ParseDocument(toParse);
 
-            Console.WriteLine(Parsed);
-            Console.ReadLine();
+            Console.Write("Parse successful. Press ENTER to open output file.");
+            var key = Console.ReadKey();
+            if (key.Key == ConsoleKey.Enter)
+            {
+                var writer = new StreamWriter("OutputFile.txt");
+                writer.Write(Parsed.ToString());
+                writer.Close();
+
+                System.Diagnostics.Process.Start("OutputFile.txt");
+            }
         }
     }
 }

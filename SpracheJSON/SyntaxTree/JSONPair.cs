@@ -28,7 +28,7 @@
         /// <returns></returns>
         public override string ToString()
         {
-            return " ( Pair | Key: " + Key + ", Value: " + Value + " ) ";
+            return "( Pair | Key: " + Key + ", Value: " + Value.ToString() + " )";
         }
     }
 }

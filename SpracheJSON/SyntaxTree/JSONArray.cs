@@ -24,9 +24,17 @@ namespace SpracheJSON
         /// <returns></returns>
         public override string ToString()
         {
-            var toReturn = " ( Array | Elements : ";
-            foreach (var e in Elements) toReturn += "\r\n\t" + e.ToString();
-            return toReturn + "\r\n ) ";
+            var toReturn = "( Array | Elements : ";
+            foreach (var e in Elements) toReturn += "\r\n" + Tabify(e.ToString());
+            return toReturn + "\r\n)";
+        }
+
+        string Tabify(string toTab)
+        {
+            var lines = toTab.Split('\n');
+            var toReturn = "";
+            foreach (var l in lines) toReturn += "\t" + l + "\n";
+            return toReturn.Substring(0, toReturn.Length - 1);
         }
     }
 }

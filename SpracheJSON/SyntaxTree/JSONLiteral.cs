@@ -28,11 +28,12 @@
         /// <returns></returns>
         public override string ToString()
         {
-            return " ( Literal | Value: " + ((Value != null) ? Value : "<null>") + ", " +
+            return "( Literal | Value: " + ((Value != null) ? Value : "<null>") + ", " +
                 "Type: " + ((Type == LiteralType.String)    ? "String"  :
                             (Type == LiteralType.Number)    ? "Number"  :
                             (Type == LiteralType.Null)      ? "Null"    :
-                            (Type == LiteralType.Boolean)   ? "Boolean" : "");
+                            (Type == LiteralType.Boolean)   ? "Boolean" : "")
+                + " )";
         }
     }
 
