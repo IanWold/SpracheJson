@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpracheJSON
+﻿namespace SpracheJSON
 {
+    /// <summary>
+    /// Represents a JSON value
+    /// </summary>
     public class JSONValue
     {
     }
