@@ -163,16 +163,16 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a JSON pair
         /// </summary>
-        private static readonly Parser<JSONPair> JPair =
+        private static readonly Parser<KeyValuePair<string, JSONValue>> JPair =
             from name in JString
             from colon in Parse.Char(':').Token()
             from val in JValue
-            select new JSONPair(name.Value, val);
+            select new KeyValuePair<string, JSONValue>(name.Value, val);
 
         /// <summary>
         /// Parses all the pairs (members) of a JSON object
         /// </summary>
-        private static readonly Parser<IEnumerable<JSONPair>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
+        private static readonly Parser<IEnumerable<KeyValuePair<string, JSONValue>>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
 
         /// <summary>
         /// Parses a JSON object

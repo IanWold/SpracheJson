@@ -11,11 +11,16 @@ namespace SpracheJSON
         /// <summary>
         /// All the JSON pair objects
         /// </summary>
-        public IEnumerable<JSONPair> Pairs { get; set; }
+        public IDictionary<string, JSONValue> Pairs { get; set; }
 
-        public JSONObject(IEnumerable<JSONPair> pairs)
+        public JSONObject(IEnumerable<KeyValuePair<string, JSONValue>> pairs)
         {
-            Pairs = pairs;
+            Pairs = new Dictionary<string, JSONValue>();
+
+            foreach (var p in pairs)
+            {
+                Pairs.Add(p);
+            }
         }
 
         /// <summary>
@@ -25,8 +30,13 @@ namespace SpracheJSON
         public override string ToString()
         {
             var toReturn = "( Object | Pairs : ";
-            foreach (var p in Pairs) toReturn += "\r\n" + Tabify(p.ToString());
+            foreach (var p in Pairs) toReturn += "\r\n" + Tabify(PairString(p));
             return toReturn + "\r\n)";
+        }
+
+        string PairString<T,U>(KeyValuePair<T,U> pair)
+        {
+            return "( Pair | Key: " + pair.Key.ToString() + ", Value: " + pair.Value.ToString() + " )";
         }
 
         string Tabify(string toTab)
