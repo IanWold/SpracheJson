@@ -1,4 +1,6 @@
-﻿namespace SpracheJSON
+﻿using System;
+
+namespace SpracheJSON
 {
     /// <summary>
     /// Represents a literal value in JSON:
@@ -20,6 +22,28 @@
         {
             Value = value;
             Type = type;
+        }
+
+        public object Get()
+        {
+            switch (Type)
+            {
+                case LiteralType.String:
+                    return Value;
+                    break;
+
+                case LiteralType.Number:
+                    return Convert.ToDouble(Value);
+                    break;
+
+                case LiteralType.Boolean:
+                    return (Value.ToLower() == "true") ? true : false;
+                    break;
+
+                default:
+                    return null;
+                    break;
+            }
         }
 
         /// <summary>
