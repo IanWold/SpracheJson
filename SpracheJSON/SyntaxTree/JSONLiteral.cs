@@ -30,19 +30,15 @@ namespace SpracheJSON
             {
                 case LiteralType.String:
                     return Value;
-                    break;
 
                 case LiteralType.Number:
                     return Convert.ToDouble(Value);
-                    break;
 
                 case LiteralType.Boolean:
                     return (Value.ToLower() == "true") ? true : false;
-                    break;
 
                 default:
                     return null;
-                    break;
             }
         }
 
@@ -55,8 +51,7 @@ namespace SpracheJSON
             return "( Literal | Value: " + ((Value != null) ? Value : "<null>") + ", " +
                 "Type: " + ((Type == LiteralType.String)    ? "String"  :
                             (Type == LiteralType.Number)    ? "Number"  :
-                            (Type == LiteralType.Null)      ? "Null"    :
-                            (Type == LiteralType.Boolean)   ? "Boolean" : "")
+                            (Type == LiteralType.Boolean)   ? "Boolean" : "Null")
                 + " )";
         }
     }

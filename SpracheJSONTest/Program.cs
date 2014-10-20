@@ -8,13 +8,15 @@ namespace SpracheJSONTest
     {
         static void Main(string[] args)
         {
-            var reader = new StreamReader("TestFile.json");
-            var toParse = reader.ReadToEnd();
-            reader.Close();
+            var timer = new System.Diagnostics.Stopwatch();
+            timer.Start();
+            var Parsed = JSON.ParseDocument("TestFile.json");
+            timer.Stop();
 
-            var Parsed = JSONParser.ParseDocument(toParse);
+            JSON.WriteDocument(Parsed, "TestOutFile.json");
 
-            Console.Write("Parse successful. Press ENTER to open output file.");
+            Console.Write("Parse completed in " + timer.ElapsedMilliseconds + " milliseconds. Press ENTER to open output file.");
+
             var key = Console.ReadKey();
             if (key.Key == ConsoleKey.Enter)
             {

@@ -6,18 +6,8 @@ namespace SpracheJSON
     /// <summary>
     /// Contains the entire JSON Parser
     /// </summary>
-    public static class JSONParser
+    static class JSONParser
     {
-        /// <summary>
-        /// Parse a string into a JSONObject
-        /// </summary>
-        /// <param name="toParse">The string (document) to be parsed</param>
-        /// <returns>A JSONObject representing the JSON document</returns>
-        public static JSONObject ParseDocument(string toParse)
-        {
-            return (JSONObject)JObject.Parse(toParse);
-        }
-
         /// <summary>
         /// Parses a literal null value
         /// </summary>
@@ -57,7 +47,7 @@ namespace SpracheJSON
         private static readonly Parser<string> JInt =
             from minus in Parse.String("-").Optional()
             from digits in Parse.Digit.Many()
-            select minus.IsDefined ? GetString(minus.Get()) + GetString(digits) : GetString(digits);
+            select (minus.IsDefined ? GetString(minus.Get()) : "") + GetString(digits);
 
         /// <summary>
         /// Parses a JSON number
@@ -177,7 +167,7 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a JSON object
         /// </summary>
-        private static readonly Parser<JSONValue> JObject =
+        public static readonly Parser<JSONValue> JObject =
             from first in Parse.Char('{').Token()
             from members in JMembers.Optional()
             from last in Parse.Char('}').Token()
