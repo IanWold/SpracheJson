@@ -24,6 +24,10 @@ namespace SpracheJSON
             Type = type;
         }
 
+        /// <summary>
+        /// Returns Value cast as the appropriate type.
+        /// </summary>
+        /// <returns></returns>
         public object Get()
         {
             switch (Type)
@@ -43,16 +47,80 @@ namespace SpracheJSON
         }
 
         /// <summary>
-        /// Outputs a text representation of this object
+        /// Returns a string representing the object in JSON
         /// </summary>
         /// <returns></returns>
+        public override string ToJSON()
+        {
+            var toReturn = "";
+
+            switch (Type)
+            {
+                case LiteralType.String:
+                    foreach (var s in Value.ToCharArray())
+                    {
+                        switch (s)
+                        {
+                            case '/':
+                                toReturn += "\\/";
+                                break;
+
+                            case '\\':
+                                toReturn += "\\\\";
+                                break;
+
+                            case '\b':
+                                toReturn += "\\b";
+                                break;
+
+                            case '\f':
+                                toReturn += "\\f";
+                                break;
+
+                            case '\n':
+                                toReturn += "\\n";
+                                break;
+
+                            case '\r':
+                                toReturn += "\\r";
+                                break;
+
+                            case '\t':
+                                toReturn += "\\t";
+                                break;
+
+                            case '"':
+                                toReturn += "\\\"";
+                                break;
+
+                            default:
+                                toReturn += s;
+                                break;
+                        }
+                    }
+
+                    toReturn = "\"" + toReturn + "\"";
+                    break;
+
+                case LiteralType.Null:
+                    toReturn = "null";
+                    break;
+
+                default:
+                    toReturn = Value;
+                    break;
+            }
+
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Returns the Value property
+        /// </summary>
+        /// <returns>this.Value</returns>
         public override string ToString()
         {
-            return "( Literal | Value: " + ((Value != null) ? Value : "<null>") + ", " +
-                "Type: " + ((Type == LiteralType.String)    ? "String"  :
-                            (Type == LiteralType.Number)    ? "Number"  :
-                            (Type == LiteralType.Boolean)   ? "Boolean" : "Null")
-                + " )";
+            return Value;
         }
     }
 

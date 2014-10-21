@@ -19,16 +19,22 @@ namespace SpracheJSON
         }
 
         /// <summary>
-        /// Outputs a text representation of this object
+        /// Returns a string representing the object in JSON
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public override string ToJSON()
         {
-            var toReturn = "( Array | Elements : ";
-            foreach (var e in Elements) toReturn += "\r\n" + Tabify(e.ToString());
-            return toReturn + "\r\n)";
+            var toReturn = "";
+            foreach (var e in Elements) toReturn +=  e.ToJSON() + ",\r\n";
+            toReturn = Tabify(toReturn.Substring(0, toReturn.Length - 3));
+            return "[\r\n" + toReturn + "\r\n]";
         }
 
+        /// <summary>
+        /// Inserts a tab character after each newline to ease formatting
+        /// </summary>
+        /// <param name="toTab">The string to be tabbed</param>
+        /// <returns></returns>
         string Tabify(string toTab)
         {
             var lines = toTab.Split('\n');

@@ -32,92 +32,6 @@ namespace SpracheJSON
         }
 
         /// <summary>
-        /// Write a JSONValue into JSON
-        /// </summary>
-        /// <param name="toWrite">The JSONValue to be written</param>
-        /// <returns>A string containing the JSON text</returns>
-        public static string WriteString(JSONValue toWrite)
-        {
-            var toReturn = "";
-
-            if (toWrite is JSONObject)
-            {
-                toReturn += "{\r\n";
-                foreach (var p in (toWrite as JSONObject).Pairs) toReturn += "\"" + p.Key + "\"" + ": " + WriteString(p.Value) + ",\r\n";
-                toReturn = toReturn.Substring(0, toReturn.Length - 3);
-                toReturn += "\r\n}";
-            }
-            else if (toWrite is JSONArray)
-            {
-                toReturn += "[\r\n";
-                foreach (var e in (toWrite as JSONArray).Elements) toReturn += WriteString(e) + ",\r\n";
-                toReturn = toReturn.Substring(0, toReturn.Length - 3);
-                toReturn += "\r\n]";
-            }
-            else if (toWrite is JSONLiteral)
-            {
-                switch ((toWrite as JSONLiteral).Type)
-                {
-                    case LiteralType.String:
-                        foreach (var s in (toWrite as JSONLiteral).Value.ToCharArray())
-                        {
-                            switch (s)
-                            {
-                                case '/':
-                                    toReturn += "\\/";
-                                    break;
-
-                                case '\\':
-                                    toReturn += "\\\\";
-                                    break;
-
-                                case '\b':
-                                    toReturn += "\\b";
-                                    break;
-
-                                case '\f':
-                                    toReturn += "\\f";
-                                    break;
-
-                                case '\n':
-                                    toReturn += "\\n";
-                                    break;
-
-                                case '\r':
-                                    toReturn += "\\r";
-                                    break;
-
-                                case '\t':
-                                    toReturn += "\\t";
-                                    break;
-
-                                case '"':
-                                    toReturn += "\\\"";
-                                    break;
-
-                                default:
-                                    toReturn += s;
-                                    break;
-                            }
-                        }
-
-                        toReturn = "\"" + toReturn + "\"";
-                        break;
-
-                    case LiteralType.Null:
-                        toReturn = "null";
-                        break;
-
-                    default:
-                        toReturn = (toWrite as JSONLiteral).Value;
-                        break;
-                }
-            }
-
-            return toReturn;
-        }
-
-        /// <summary>
         /// Write a JSONValue into JSON, then write than onto a file
         /// </summary>
         /// <param name="toWrite">The JSONValue to be written</param>
@@ -125,7 +39,7 @@ namespace SpracheJSON
         public static void WriteDocument(JSONValue toWrite, string doc)
         {
             using (var writer = new StreamWriter(doc))
-                writer.Write(WriteString(toWrite));
+                writer.Write(toWrite.ToJSON());
         }
     }
 }

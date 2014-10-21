@@ -13,19 +13,11 @@ namespace SpracheJSONTest
             var Parsed = JSON.ParseDocument("TestFile.json");
             timer.Stop();
 
-            JSON.WriteDocument(Parsed, "TestOutFile.json");
+            JSON.WriteDocument(Parsed, "OutputFile.json");
 
-            Console.Write("Parse completed in " + timer.ElapsedMilliseconds + " milliseconds. Press ENTER to open output file.");
+            Console.Write("Parse completed in " + timer.ElapsedMilliseconds + " milliseconds.");
 
             var key = Console.ReadKey();
-            if (key.Key == ConsoleKey.Enter)
-            {
-                var writer = new StreamWriter("OutputFile.txt");
-                writer.Write(Parsed.ToString());
-                writer.Close();
-
-                System.Diagnostics.Process.Start("OutputFile.txt");
-            }
         }
     }
 }
