@@ -11,16 +11,23 @@ namespace SpracheJSON
         /// <summary>
         /// All the JSON pair objects
         /// </summary>
-        public IDictionary<string, JSONValue> Pairs { get; set; }
+        public Dictionary<string, JSONValue> Pairs { get; set; }
 
         public JSONObject(IEnumerable<KeyValuePair<string, JSONValue>> pairs)
         {
             Pairs = new Dictionary<string, JSONValue>();
+            foreach (var p in pairs) Pairs.Add(p.Key, p.Value);
+        }
 
-            foreach (var p in pairs)
-            {
-                Pairs.Add(p);
-            }
+        /// <summary>
+        /// Makes Pairs directly accessable
+        /// </summary>
+        /// <param name="key">The key of the JSONValue</param>
+        /// <returns>The JSONValue at that key</returns>
+        public JSONValue this[string key]
+        {
+            get { return Pairs[key]; }
+            set { Pairs[key] = value; }
         }
 
         /// <summary>

@@ -11,11 +11,23 @@ namespace SpracheJSON
         /// <summary>
         /// All the JSON values
         /// </summary>
-        public IEnumerable<JSONValue> Elements { get; set; }
+        public List<JSONValue> Elements { get; set; }
 
         public JSONArray(IEnumerable<JSONValue> elements)
         {
-            Elements = elements;
+            Elements = new List<JSONValue>();
+            foreach (var e in elements) Elements.Add(e);
+        }
+
+        /// <summary>
+        /// Makes Elements directly accessable
+        /// </summary>
+        /// <param name="i">The index of the JSONValue</param>
+        /// <returns>The JSONValue at index i</returns>
+        public JSONValue this[int i]
+        {
+            get { return Elements[i]; }
+            set { Elements[i] = value; }
         }
 
         /// <summary>
