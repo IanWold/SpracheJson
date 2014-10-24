@@ -33,9 +33,10 @@ From here, you have a `JSONObject` called `Parsed` that you can work with. Getti
 Console.WriteLine(Parsed["Field1"] as JSONLiteral);
 //Writes 'Hello, World!'
 
-var name = (((Parsed["Field2"] as JSONArray)[1] as JSONObject)["name"] as JSONLiteral).Value;
-var age = (((Parsed["Field2"] as JSONArray)[1] as JSONObject)["age"] as JSONLiteral).Value;
+var name = Parsed["Field2"][1]["name"]; //Gets a JSONLiteral object representing the name
+var age = Parsed["Field2"][1]["age"]; //Gets a JSONLiteral object representing the age
 Console.WriteLine("The age of {0} is {1}", name, age);
+//Writes 'The age of Bob is 46'
 ```
 
 SpracheJSON can also write the abstract syntax tree back into JSON. The method is more/less the same:
@@ -49,6 +50,8 @@ In fact, every object of the syntax tree has a `ToJSON()` method you can call to
 ```c#
 var json = Parsed.ToJSON();
 ```
+
+This outputs the same properly formatted JSON shown above.
 
 Contributing
 ============

@@ -24,7 +24,7 @@ namespace SpracheJSON
         /// </summary>
         /// <param name="key">The key of the JSONValue</param>
         /// <returns>The JSONValue at that key</returns>
-        public JSONValue this[string key]
+        public override JSONValue this[string key]
         {
             get { return Pairs[key]; }
             set { Pairs[key] = value; }

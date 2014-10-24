@@ -13,5 +13,17 @@
         {
             return null;
         }
+
+        public virtual JSONValue this[string key]
+        {
+            get { return null; }
+            set { }
+        }
+
+        public virtual JSONValue this[int i]
+        {
+            get { return null; }
+            set { }
+        }
     }
 }

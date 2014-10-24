@@ -24,7 +24,7 @@ namespace SpracheJSON
         /// </summary>
         /// <param name="i">The index of the JSONValue</param>
         /// <returns>The JSONValue at index i</returns>
-        public JSONValue this[int i]
+        public override JSONValue this[int i]
         {
             get { return Elements[i]; }
             set { Elements[i] = value; }
