@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SpracheJSON
 {
@@ -26,8 +27,16 @@ namespace SpracheJSON
         /// <returns>The JSONValue at index i</returns>
         public override JSONValue this[int i]
         {
-            get { return Elements[i]; }
-            set { Elements[i] = value; }
+            get
+            {
+                if (0 <= i && i < Elements.Count) return Elements[i];
+                else throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
+            }
+            set
+            {
+                if (0 <= i && i < Elements.Count) Elements[i] = value;
+                else throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
+            }
         }
 
         /// <summary>

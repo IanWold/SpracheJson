@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SpracheJSON
 {
@@ -26,8 +27,16 @@ namespace SpracheJSON
         /// <returns>The JSONValue at that key</returns>
         public override JSONValue this[string key]
         {
-            get { return Pairs[key]; }
-            set { Pairs[key] = value; }
+            get
+            {
+                if (Pairs.ContainsKey(key)) return Pairs[key];
+                else throw new ArgumentException("Key not found: " + key);
+            }
+            set
+            {
+                if (Pairs.ContainsKey(key)) Pairs[key] = value;
+                else throw new ArgumentException("Key not found: " + key);
+            }
         }
 
         /// <summary>

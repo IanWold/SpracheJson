@@ -1,4 +1,6 @@
-﻿namespace SpracheJSON
+﻿using System;
+
+namespace SpracheJSON
 {
     /// <summary>
     /// Represents a JSON value
@@ -16,14 +18,14 @@
 
         public virtual JSONValue this[string key]
         {
-            get { return null; }
-            set { }
+            get { throw new Exception("Cannot index JSONValue"); }
+            set { throw new Exception("Cannot index JSONValue"); }
         }
 
         public virtual JSONValue this[int i]
         {
-            get { return null; }
-            set { }
+            get { throw new Exception("Cannot index JSONValue"); }
+            set { throw new Exception("Cannot index JSONValue"); }
         }
     }
 }
