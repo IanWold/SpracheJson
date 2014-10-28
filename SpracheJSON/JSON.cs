@@ -75,13 +75,13 @@
         /// <summary>
         /// Returns a string in JSON format (with all the appropriate escape characters placed)
         /// </summary>
-        /// <param name="toConvert">The string to convert to valid JSON</param>
+        /// <param name="toGet">The string to convert to valid JSON</param>
         /// <returns>A JSON string</returns>
-        internal static string GetJSONString(string toConvert)
+        internal static string GetJSONString(string toGet)
         {
             var toReturn = "";
 
-            foreach (var s in toConvert.ToCharArray())
+            foreach (var s in toGet.ToCharArray())
             {
                 switch (s)
                 {

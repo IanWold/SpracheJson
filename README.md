@@ -3,7 +3,7 @@ SpracheJSON
 
 SpracheJSON is a JSON parser for C# written with the awesome [Sprache](https://github.com/sprache/Sprache) framework. I built this in much the same vain as [SpracheDown](https://github.com/IanWold/SpracheDown), more as a side project than anything. However, SpracheJSON is a **fully-functioning** JSON parser (as far as I'm aware), and as such you can use it for any of your JSON parsing needs.
 
-SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple abstract syntax tree. Imagine you have the following JSON file in "MyFile.json":
+SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple syntax tree. Imagine you have the following JSON file in "MyFile.json":
 
 ```json
 {
@@ -34,8 +34,8 @@ From here, you have a `JSONObject` called `Parsed` that you can work with. Getti
 Console.WriteLine(Parsed["Field1"]);
 //Writes 'Hello, World!'
 
-var name = Parsed["Field2"][1]["name"]; //Gets a JSONLiteral object representing the name
-var age = Parsed["Field2"][1]["age"]; //Gets a JSONLiteral object representing the age
+var name = Parsed["Field2"][1]["name"]; //Gets a JSONLiteral object for the name
+var age = Parsed["Field2"][1]["age"]; //Gets a JSONLiteral object for the age
 Console.WriteLine("The age of {0} is {1}", name, age);
 //Writes 'The age of Bob is 46'
 ```
