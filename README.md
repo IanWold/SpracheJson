@@ -39,6 +39,22 @@ Console.WriteLine("The age of {0} is {1}", name, age);
 //Writes 'The age of Bob is 46'
 ```
 
+Now, let's say that we've got the following class `Person`:
+
+```c#
+public class Person
+{
+	public string Name { get; set; }
+	public int Age { get; set; }
+}
+```
+
+SpraceJSON can then map our parsed JSON document onto an array of `Person` objects:
+
+```c#
+var people = JSON.MapValue<Person[]>(Parsed["Field2"]);
+```
+
 SpracheJSON can also write the abstract syntax tree back into JSON. The method is more/less the same:
 
 ```c#
@@ -52,6 +68,8 @@ var json = Parsed.ToJSON();
 ```
 
 This outputs the same properly formatted JSON shown above.
+
+It should be noted that the object mapping shown above is kinda beta right now (needs error handling), and non-AST objects can't be written into JSON.
 
 Contributing
 ============
