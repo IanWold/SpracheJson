@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sprache;
-using System.IO;
+﻿using System.IO;
 
 namespace SpracheJSON
 {
@@ -17,7 +11,7 @@ namespace SpracheJSON
         /// <returns>A JSONObject representing the JSON document</returns>
         public static JSONObject ParseString(string toParse)
         {
-            return (JSONObject)JSONParser.JObject.Parse(toParse);
+            return JSONParser.ParseJSON(toParse);
         }
 
         /// <summary>
@@ -40,6 +34,20 @@ namespace SpracheJSON
         {
             using (var writer = new StreamWriter(doc))
                 writer.Write(toWrite.ToJSON());
+        }
+        public static T MapString<T>(string toMap)
+        {
+            return MapValue<T>(ParseString(toMap));
+        }
+
+        public static T MapDocument<T>(string doc)
+        {
+            return MapValue<T>(ParseDocument(doc));
+        }
+
+        public static T MapValue<T>(JSONValue toMap)
+        {
+            return (T)JSONMap.MapValue(typeof(T), toMap);
         }
     }
 }

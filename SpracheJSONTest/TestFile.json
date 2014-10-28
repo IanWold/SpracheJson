@@ -21,6 +21,13 @@
     "gender": {
         "type": "male"
     },
+    "MyArray": [
+        "Hello",
+        "this",
+        "is",
+        "a",
+        "test"
+    ],
     "MyNumber": 3.56e+6,
     "MyLiteral": "Hello \\ This is\" very cool \t don't you think",
     "MyBoolean": true,

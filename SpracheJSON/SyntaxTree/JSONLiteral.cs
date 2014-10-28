@@ -16,12 +16,12 @@ namespace SpracheJSON
         /// <summary>
         /// The type the value is
         /// </summary>
-        public LiteralType Type { get; set; }
+        public LiteralType ValueType { get; set; }
 
         public JSONLiteral(string value, LiteralType type)
         {
             Value = value;
-            Type = type;
+            ValueType = type;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace SpracheJSON
         /// <returns></returns>
         public object Get()
         {
-            switch (Type)
+            switch (ValueType)
             {
                 case LiteralType.String:
                     return Value;
@@ -54,7 +54,7 @@ namespace SpracheJSON
         {
             var toReturn = "";
 
-            switch (Type)
+            switch (ValueType)
             {
                 case LiteralType.String:
                     foreach (var s in Value.ToCharArray())

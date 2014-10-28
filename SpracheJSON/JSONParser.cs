@@ -11,48 +11,48 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a literal null value
         /// </summary>
-        private static readonly Parser<JSONLiteral> JNull =
+        static readonly Parser<JSONLiteral> JNull =
             from str in Parse.IgnoreCase("null")
             select new JSONLiteral(null, LiteralType.Null);
 
         /// <summary>
         /// Parses a literal boolean value
         /// </summary>
-        private static readonly Parser<JSONLiteral> JBoolean =
-            from str in Parse.IgnoreCase("true").Or(Parse.IgnoreCase("false"))
-            select new JSONLiteral(GetString(str), LiteralType.Boolean);
+        static readonly Parser<JSONLiteral> JBoolean =
+            from str in Parse.IgnoreCase("true").Text().Or(Parse.IgnoreCase("false").Text())
+            select new JSONLiteral(str, LiteralType.Boolean);
 
         /// <summary>
         /// Parses the exponential part of a number
         /// </summary>
-        private static readonly Parser<string> JExp =
-            from e in Parse.IgnoreCase("e")
-            from sign in Parse.String("+")
-                         .Or(Parse.String("-"))
+        static readonly Parser<string> JExp =
+            from e in Parse.IgnoreCase("e").Text()
+            from sign in Parse.String("+").Text()
+                         .Or(Parse.String("-").Text())
                          .Optional()
-            from digits in Parse.Digit.Many()
-            select GetString(e) + ((sign.IsDefined) ? GetString(sign.Get()) : "") + GetString(digits);
+            from digits in Parse.Digit.Many().Text()
+            select e + ((sign.IsDefined) ? sign.Get() : "") + digits;
 
         /// <summary>
         /// Parses the decimal part of a number
         /// </summary>
-        private static readonly Parser<string> JFrac =
-            from dot in Parse.String(".")
-            from digits in Parse.Digit.Many()
-            select GetString(dot) + GetString(digits);
+        static readonly Parser<string> JFrac =
+            from dot in Parse.String(".").Text()
+            from digits in Parse.Digit.Many().Text()
+            select dot + digits;
 
         /// <summary>
         /// Parses the integer part of anumber
         /// </summary>
-        private static readonly Parser<string> JInt =
-            from minus in Parse.String("-").Optional()
-            from digits in Parse.Digit.Many()
-            select (minus.IsDefined ? GetString(minus.Get()) : "") + GetString(digits);
+        static readonly Parser<string> JInt =
+            from minus in Parse.String("-").Text().Optional()
+            from digits in Parse.Digit.Many().Text()
+            select (minus.IsDefined ? minus.Get() : "") + digits;
 
         /// <summary>
         /// Parses a JSON number
         /// </summary>
-        private static readonly Parser<JSONLiteral> JNumber =
+        static readonly Parser<JSONLiteral> JNumber =
             from integer in JInt
             from frac in JFrac.Optional()
             from exp in JExp.Optional()
@@ -65,7 +65,7 @@ namespace SpracheJSON
         /// <param name="frac">The optional decimal part of the number</param>
         /// <param name="exp">The optional exponential part of the number</param>
         /// <returns>A string containing the JSON number</returns>
-        private static string GetNumber(string integer, IOption<string> frac, IOption<string> exp)
+        static string GetNumber(string integer, IOption<string> frac, IOption<string> exp)
         {
             if (frac.IsDefined) integer += frac.Get();
             if (exp.IsDefined) integer += exp.Get();
@@ -74,21 +74,9 @@ namespace SpracheJSON
         }
 
         /// <summary>
-        /// Concatenates all the characters in an enumerable into a single string
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        private static string GetString(IEnumerable<char> val)
-        {
-            string toReturn = "";
-            foreach (var c in val) toReturn += c.ToString();
-            return toReturn;
-        }
-
-        /// <summary>
         /// Parses a control char, which is a character preceded by the escape character '\'
         /// </summary>
-        private static readonly Parser<char> ControlChar =
+        static readonly Parser<char> ControlChar =
             from first in Parse.Char('\\')
             from next in Parse.Char('\"')
                          .Or(Parse.Char('\\'))
@@ -108,21 +96,21 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a JSON character
         /// </summary>
-        private static readonly Parser<char> JChar = Parse.AnyChar.Except(Parse.Char('"').Or(Parse.Char('\\'))).Or(ControlChar);
+        static readonly Parser<char> JChar = Parse.AnyChar.Except(Parse.Char('"').Or(Parse.Char('\\'))).Or(ControlChar);
 
         /// <summary>
         /// Parses a JSON string
         /// </summary>
-        private static readonly Parser<JSONLiteral> JString =
+        static readonly Parser<JSONLiteral> JString =
             from first in Parse.Char('"')
-            from chars in JChar.Many()
+            from chars in JChar.Many().Text()
             from last in Parse.Char('"')
-            select new JSONLiteral(GetString(chars), LiteralType.String);
+            select new JSONLiteral(chars, LiteralType.String);
 
         /// <summary>
         /// Parses any literal JSON value: string, number, boolean, null
         /// </summary>
-        private static readonly Parser<JSONLiteral> JLiteral =
+        static readonly Parser<JSONLiteral> JLiteral =
             JString
             .XOr(JNumber)
             .XOr(JBoolean)
@@ -131,7 +119,7 @@ namespace SpracheJSON
         /// <summary>
         /// Parses any JSON value
         /// </summary>
-        private static readonly Parser<JSONValue> JValue =
+        static readonly Parser<JSONValue> JValue =
             Parse.Ref(() => JObject)
             .Or(Parse.Ref(() => JArray))
             .Or(JLiteral);
@@ -139,12 +127,12 @@ namespace SpracheJSON
         /// <summary>
         /// Parses the elements within a JSON array
         /// </summary>
-        private static readonly Parser<IEnumerable<JSONValue>> JElements = JValue.DelimitedBy(Parse.Char(',').Token());
+        static readonly Parser<IEnumerable<JSONValue>> JElements = JValue.DelimitedBy(Parse.Char(',').Token());
 
         /// <summary>
         /// Parses a JSON array
         /// </summary>
-        private static readonly Parser<JSONValue> JArray =
+        static readonly Parser<JSONValue> JArray =
             from first in Parse.Char('[').Token()
             from elements in JElements.Optional()
             from last in Parse.Char(']').Token()
@@ -153,7 +141,7 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a JSON pair
         /// </summary>
-        private static readonly Parser<KeyValuePair<string, JSONValue>> JPair =
+        static readonly Parser<KeyValuePair<string, JSONValue>> JPair =
             from name in JString
             from colon in Parse.Char(':').Token()
             from val in JValue
@@ -162,15 +150,20 @@ namespace SpracheJSON
         /// <summary>
         /// Parses all the pairs (members) of a JSON object
         /// </summary>
-        private static readonly Parser<IEnumerable<KeyValuePair<string, JSONValue>>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
+        static readonly Parser<IEnumerable<KeyValuePair<string, JSONValue>>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
 
         /// <summary>
         /// Parses a JSON object
         /// </summary>
-        public static readonly Parser<JSONValue> JObject =
+        static readonly Parser<JSONValue> JObject =
             from first in Parse.Char('{').Token()
             from members in JMembers.Optional()
             from last in Parse.Char('}').Token()
             select new JSONObject(members.IsDefined ? members.Get() : null);
+
+        public static JSONObject ParseJSON(string toParse)
+        {
+            return (JSONObject)JObject.Parse(toParse);
+        }
     }
 }
