@@ -35,16 +35,35 @@ namespace SpracheJSON
             using (var writer = new StreamWriter(doc))
                 writer.Write(toWrite.ToJSON());
         }
+
+        /// <summary>
+        /// Parses a string into a JSONObject, then maps that onto an object
+        /// </summary>
+        /// <typeparam name="T">The type of object to map the JSON onto</typeparam>
+        /// <param name="toMap">The string containing the JSON to be mapped</param>
+        /// <returns>An instance of the object containing the JSON information</returns>
         public static T MapString<T>(string toMap)
         {
             return MapValue<T>(ParseString(toMap));
         }
 
+        /// <summary>
+        /// Parses a document into a JSONObject, then maps that onto an object
+        /// </summary>
+        /// <typeparam name="T">The type of object to map the JSON onto</typeparam>
+        /// <param name="doc">The location of the document containnig the JSON to be mapped</param>
+        /// <returns>An instance of the object containing the JSON information</returns>
         public static T MapDocument<T>(string doc)
         {
             return MapValue<T>(ParseDocument(doc));
         }
 
+        /// <summary>
+        /// Maps a JSONValue object onto another object
+        /// </summary>
+        /// <typeparam name="T">The type of object to map the JSONValue onto</typeparam>
+        /// <param name="toMap">The JSONValue to map onto the object</param>
+        /// <returns>An instance of the object containing the JSON information</returns>
         public static T MapValue<T>(JSONValue toMap)
         {
             return (T)JSONMap.MapValue(typeof(T), toMap);
