@@ -56,22 +56,10 @@ namespace SpracheJSON
             from integer in JInt
             from frac in JFrac.Optional()
             from exp in JExp.Optional()
-            select new JSONLiteral(GetNumber(integer, frac, exp), LiteralType.Number);
-
-        /// <summary>
-        /// Accepts all the parts from the JNumber parser and assembles it into one string representing the number
-        /// </summary>
-        /// <param name="integer">The integer part of the number</param>
-        /// <param name="frac">The optional decimal part of the number</param>
-        /// <param name="exp">The optional exponential part of the number</param>
-        /// <returns>A string containing the JSON number</returns>
-        static string GetNumber(string integer, IOption<string> frac, IOption<string> exp)
-        {
-            if (frac.IsDefined) integer += frac.Get();
-            if (exp.IsDefined) integer += exp.Get();
-
-            return integer;
-        }
+            select new JSONLiteral(integer +
+                                   (frac.IsDefined ? frac.Get() : "") +
+                                   (exp.IsDefined ? exp.Get() : ""),
+                                   LiteralType.Number);
 
         /// <summary>
         /// Parses a control char, which is a character preceded by the escape character '\'
