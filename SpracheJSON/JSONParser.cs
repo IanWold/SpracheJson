@@ -149,6 +149,11 @@ namespace SpracheJSON
             from last in Parse.Char('}').Token()
             select new JSONObject(members.IsDefined ? members.Get() : null);
 
+        /// <summary>
+        /// Parses a JObject
+        /// </summary>
+        /// <param name="toParse">The text to parse</param>
+        /// <returns>A JSONValue cast as a JSONObject</returns>
         public static JSONObject ParseJSON(string toParse)
         {
             return (JSONObject)JObject.Parse(toParse);

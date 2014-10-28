@@ -4,7 +4,7 @@ using System.Collections;
 namespace SpracheJSON
 {
     /// <summary>
-    /// Provides methods which map JSONValue objects onto other objects
+    /// Maps JSONValue objects onto other objects
     /// </summary>
     static class JSONMap
     {
