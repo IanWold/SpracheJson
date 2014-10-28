@@ -3,7 +3,7 @@ SpracheJSON
 
 SpracheJSON is a JSON parser for C# written with the awesome [Sprache](https://github.com/sprache/Sprache) framework. I built this in much the same vain as [SpracheDown](https://github.com/IanWold/SpracheDown), more as a side project than anything. However, SpracheJSON is a **fully-functioning** JSON parser (as far as I'm aware), and as such you can use it for any of your JSON parsing needs.
 
-SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple abstract syntax tree. Imagine you have the following JSON file:
+SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple abstract syntax tree. Imagine you have the following JSON file in "MyFile.json":
 
 ```json
 {
@@ -21,16 +21,17 @@ SpracheJSON can parse JSON from a string or from a file. It parses the JSON into
 }
 ```
 
-You can parse that with the following line:
+To parse that into JSON, you can read it and parse it like so:
 
 ```c#
-var Parsed = JSON.ParseDocument("MyFile.json");
+var reader = new StreamReader("MyFile.json");
+var Parsed = JSON.Parse(reader.ReadToEnd());
 ```
 
 From here, you have a `JSONObject` called `Parsed` that you can work with. Getting values from the syntax tree is pretty easy:
 
 ```c#
-Console.WriteLine(Parsed["Field1"] as JSONLiteral);
+Console.WriteLine(Parsed["Field1"]);
 //Writes 'Hello, World!'
 
 var name = Parsed["Field2"][1]["name"]; //Gets a JSONLiteral object representing the name
@@ -52,24 +53,24 @@ public class Person
 SpraceJSON can then map our parsed JSON document onto an array of `Person` objects:
 
 ```c#
-var people = JSON.MapValue<Person[]>(Parsed["Field2"]);
+var people = JSON.Map<Person[]>(Parsed["Field2"]);
 ```
 
-SpracheJSON can also write the abstract syntax tree back into JSON. The method is more/less the same:
+Any JSONValue object can write itself back into JSON, so you only need the following to write `Parsed` back to MyFile.json:
 
 ```c#
-JSON.WriteDocument(Parsed, "MyFile.json");
+var writer = new StreamWriter("MyFile.json");
+writer.Write(Parsed.ToJSON());
 ```
 
-In fact, every object of the syntax tree has a `ToJSON()` method you can call to get its JSON string representation:
+SpracheJSON also allows you to serialize any object into JSON. Suppose we wanted to write `people` into its own file:
 
 ```c#
-var json = Parsed.ToJSON();
+var writer2 = new StreamWriter("MyOtherFile.json");
+writer2.Write(JSON.Write(people));
 ```
 
-This outputs the same properly formatted JSON shown above.
-
-It should be noted that the object mapping shown above is kinda beta right now (needs error handling), and non-AST objects can't be written into JSON.
+It should be noted that the object mapping shown above is kinda beta right now (it's in need of error handling). It's being tested and worked on, but if you want to contribute, you definitely should!
 
 Contributing
 ============

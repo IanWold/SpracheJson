@@ -1,7 +1,8 @@
-﻿using System.IO;
-
-namespace SpracheJSON
+﻿namespace SpracheJSON
 {
+    /// <summary>
+    /// Interfaces kindly with the parser and mapper
+    /// </summary>
     public static class JSON
     {
         /// <summary>
@@ -9,31 +10,9 @@ namespace SpracheJSON
         /// </summary>
         /// <param name="toParse">The string (document) to be parsed</param>
         /// <returns>A JSONObject representing the JSON document</returns>
-        public static JSONObject ParseString(string toParse)
+        public static JSONObject Parse(string toParse)
         {
             return JSONParser.ParseJSON(toParse);
-        }
-
-        /// <summary>
-        /// Read a file, then parse its contents into a JSONObject
-        /// </summary>
-        /// <param name="doc">The location of the file to parse</param>
-        /// <returns>A JSON object representing the JSON document</returns>
-        public static JSONObject ParseDocument(string doc)
-        {
-            using (var reader = new StreamReader(doc))
-                return ParseString(reader.ReadToEnd());
-        }
-
-        /// <summary>
-        /// Write a JSONValue into JSON, then write than onto a file
-        /// </summary>
-        /// <param name="toWrite">The JSONValue to be written</param>
-        /// <param name="doc">The location of the file to be written to</param>
-        public static void WriteDocument(JSONValue toWrite, string doc)
-        {
-            using (var writer = new StreamWriter(doc))
-                writer.Write(toWrite.ToJSON());
         }
 
         /// <summary>
@@ -42,20 +21,9 @@ namespace SpracheJSON
         /// <typeparam name="T">The type of object to map the JSON onto</typeparam>
         /// <param name="toMap">The string containing the JSON to be mapped</param>
         /// <returns>An instance of the object containing the JSON information</returns>
-        public static T MapString<T>(string toMap)
+        public static T Map<T>(string toMap)
         {
-            return MapValue<T>(ParseString(toMap));
-        }
-
-        /// <summary>
-        /// Parses a document into a JSONObject, then maps that onto an object
-        /// </summary>
-        /// <typeparam name="T">The type of object to map the JSON onto</typeparam>
-        /// <param name="doc">The location of the document containnig the JSON to be mapped</param>
-        /// <returns>An instance of the object containing the JSON information</returns>
-        public static T MapDocument<T>(string doc)
-        {
-            return MapValue<T>(ParseDocument(doc));
+            return Map<T>(Parse(toMap));
         }
 
         /// <summary>
@@ -64,9 +32,98 @@ namespace SpracheJSON
         /// <typeparam name="T">The type of object to map the JSONValue onto</typeparam>
         /// <param name="toMap">The JSONValue to map onto the object</param>
         /// <returns>An instance of the object containing the JSON information</returns>
-        public static T MapValue<T>(JSONValue toMap)
+        public static T Map<T>(JSONValue toMap)
         {
             return (T)JSONMap.MapValue(typeof(T), toMap);
+        }
+
+        /// <summary>
+        /// Serialize a JSONValue into JSON
+        /// </summary>
+        /// <param name="toWrite">The JSONValue to be serialized</param>
+        /// <returns>A string containing the serialized JSON</returns>
+        public static string Write(JSONValue toWrite)
+        {
+            return toWrite.ToJSON();
+        }
+
+        /// <summary>
+        /// Serialize an object into JSON
+        /// </summary>
+        /// <typeparam name="T">The type of object to be serialized</typeparam>
+        /// <param name="toWrite">the object to be serialized</param>
+        /// <returns>A string containing the serialized JSON</returns>
+        public static string Write<T>(T toWrite)
+        {
+            return JSONSerialize.WriteValue(typeof(T), toWrite);
+        }
+         
+
+        /// <summary>
+        /// Inserts a tab character after each newline to ease formatting
+        /// </summary>
+        /// <param name="toTab">The string to be tabbed</param>
+        /// <returns></returns>
+        internal static string Tabify(string toTab)
+        {
+            var lines = toTab.Split('\n');
+            var toReturn = "";
+            foreach (var l in lines) toReturn += "\t" + l + "\n";
+            return toReturn.Substring(0, toReturn.Length - 1);
+        }
+
+        /// <summary>
+        /// Returns a string in JSON format (with all the appropriate escape characters placed)
+        /// </summary>
+        /// <param name="toConvert">The string to convert to valid JSON</param>
+        /// <returns>A JSON string</returns>
+        internal static string GetJSONString(string toConvert)
+        {
+            var toReturn = "";
+
+            foreach (var s in toConvert.ToCharArray())
+            {
+                switch (s)
+                {
+                    case '/':
+                        toReturn += "\\/";
+                        break;
+
+                    case '\\':
+                        toReturn += "\\\\";
+                        break;
+
+                    case '\b':
+                        toReturn += "\\b";
+                        break;
+
+                    case '\f':
+                        toReturn += "\\f";
+                        break;
+
+                    case '\n':
+                        toReturn += "\\n";
+                        break;
+
+                    case '\r':
+                        toReturn += "\\r";
+                        break;
+
+                    case '\t':
+                        toReturn += "\\t";
+                        break;
+
+                    case '"':
+                        toReturn += "\\\"";
+                        break;
+
+                    default:
+                        toReturn += s;
+                        break;
+                }
+            }
+
+            return toReturn;
         }
     }
 }

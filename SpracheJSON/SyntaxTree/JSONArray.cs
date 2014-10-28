@@ -47,21 +47,8 @@ namespace SpracheJSON
         {
             var toReturn = "";
             foreach (var e in Elements) toReturn +=  e.ToJSON() + ",\r\n";
-            toReturn = Tabify(toReturn.Substring(0, toReturn.Length - 3));
+            toReturn = JSON.Tabify(toReturn.Substring(0, toReturn.Length - 3));
             return "[\r\n" + toReturn + "\r\n]";
-        }
-
-        /// <summary>
-        /// Inserts a tab character after each newline to ease formatting
-        /// </summary>
-        /// <param name="toTab">The string to be tabbed</param>
-        /// <returns></returns>
-        string Tabify(string toTab)
-        {
-            var lines = toTab.Split('\n');
-            var toReturn = "";
-            foreach (var l in lines) toReturn += "\t" + l + "\n";
-            return toReturn.Substring(0, toReturn.Length - 1);
         }
     }
 }

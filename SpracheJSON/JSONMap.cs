@@ -3,6 +3,9 @@ using System.Collections;
 
 namespace SpracheJSON
 {
+    /// <summary>
+    /// Provides methods which map JSONValue objects onto other objects
+    /// </summary>
     static class JSONMap
     {
         /// <summary>
@@ -57,7 +60,7 @@ namespace SpracheJSON
             else
             {
                 //If T is an array, create a new ArrayList, otherwise create a new IList of type T
-                IList toReturnList = (T.IsArray) ? new ArrayList() : (IList)Activator.CreateInstance(T);
+                var toReturnList = (T.IsArray) ? new ArrayList() : (IList)Activator.CreateInstance(T);
 
                 //Loop through all the elements of the array, and populate toReturnList with the mapped values of those elements
                 foreach (var e in toMap.Elements)

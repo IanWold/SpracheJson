@@ -57,49 +57,7 @@ namespace SpracheJSON
             switch (ValueType)
             {
                 case LiteralType.String:
-                    foreach (var s in Value.ToCharArray())
-                    {
-                        switch (s)
-                        {
-                            case '/':
-                                toReturn += "\\/";
-                                break;
-
-                            case '\\':
-                                toReturn += "\\\\";
-                                break;
-
-                            case '\b':
-                                toReturn += "\\b";
-                                break;
-
-                            case '\f':
-                                toReturn += "\\f";
-                                break;
-
-                            case '\n':
-                                toReturn += "\\n";
-                                break;
-
-                            case '\r':
-                                toReturn += "\\r";
-                                break;
-
-                            case '\t':
-                                toReturn += "\\t";
-                                break;
-
-                            case '"':
-                                toReturn += "\\\"";
-                                break;
-
-                            default:
-                                toReturn += s;
-                                break;
-                        }
-                    }
-
-                    toReturn = "\"" + toReturn + "\"";
+                    toReturn = "\"" + JSON.GetJSONString(Value) + "\"";
                     break;
 
                 case LiteralType.Null:

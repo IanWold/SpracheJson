@@ -11,12 +11,23 @@ namespace SpracheJSONTest
             //Create a timer to test the running time
             var timer = new System.Diagnostics.Stopwatch();
             timer.Start();
+
             //Parse the JSON
-            var Parsed = JSON.ParseDocument("TestFile.json");
+            var Parsed = new JSONValue();
+            using (var reader = new StreamReader("TestFile.json"))
+            {
+                Parsed = JSON.Parse(reader.ReadToEnd());
+            }
+
             timer.Stop();
 
             //Write the parsed JSON as a JSON file
-            JSON.WriteDocument(Parsed, "OutputFile.json");
+            using (var writer = new StreamWriter("OutputFile.json"))
+            {
+                writer.Write(JSON.Write(Parsed));
+                //This works the same:
+                //writer.Write(Parsed.ToJSON());
+            }
 
             Console.WriteLine("Parse completed in " + timer.ElapsedMilliseconds + " milliseconds.");
 
@@ -26,13 +37,17 @@ namespace SpracheJSONTest
             var homePhone = Parsed["phoneNumber"][0]["number"];
 
             //Map his address onto our own TestAddress class
-            var Address = JSON.MapValue<TestAddress>(Parsed["address"]);
+            var Address = JSON.Map<TestAddress>(Parsed["address"]);
 
             //Write out all his info
             Console.WriteLine("The home phone number of {0} is {1}.", name, homePhone);
-            Console.WriteLine("His address is:");
-            Console.WriteLine("\t{0}", Address.streetAddress);
-            Console.WriteLine("\t{0}, {1} {2}", Address.city, Address.state, Address.postalCode);
+            Console.WriteLine("His address is:\r\n" + Address);
+
+            //Write the Address object to a file.
+            using (var writer = new StreamWriter("OutputAddress.json"))
+            {
+                writer.Write(JSON.Write(Address));
+            }
 
             var key = Console.ReadKey();
         }
@@ -47,5 +62,14 @@ namespace SpracheJSONTest
         public string city { get; set; }
         public string state { get; set; }
         public string postalCode { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}\r\n{1} {2} {3}",
+                                 streetAddress,
+                                 city,
+                                 state,
+                                 postalCode);
+        }
     }
 }
