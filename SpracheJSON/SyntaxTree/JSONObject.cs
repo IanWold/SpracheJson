@@ -17,7 +17,7 @@ namespace SpracheJSON
         public JSONObject(IEnumerable<KeyValuePair<string, JSONValue>> pairs)
         {
             Pairs = new Dictionary<string, JSONValue>();
-            foreach (var p in pairs) Pairs.Add(p.Key, p.Value);
+            if (pairs != null) foreach (var p in pairs) Pairs.Add(p.Key, p.Value);
         }
 
         /// <summary>

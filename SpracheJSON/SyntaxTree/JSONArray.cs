@@ -17,7 +17,7 @@ namespace SpracheJSON
         public JSONArray(IEnumerable<JSONValue> elements)
         {
             Elements = new List<JSONValue>();
-            foreach (var e in elements) Elements.Add(e);
+            if (elements != null) foreach (var e in elements) Elements.Add(e);
         }
 
         /// <summary>
