@@ -19,25 +19,32 @@ namespace SpracheJSON
             //Create an instance of the object
             var toReturn = Activator.CreateInstance(T);
 
-            //Loop through all the properties of the type
-            foreach (var p in T.GetProperties())
+            if (T.IsSubclassOf(typeof(IDictionary)))
             {
-                //If the JSONObject contains information for that property,
-                //set the value of the return object's property to that information.
-                if (toMap.Pairs.ContainsKey(p.Name))
-                {
-                    p.SetValue(toReturn, MapValue(p.PropertyType, toMap[p.Name]));
-                }
+                //How do I get this into a dictionary?
             }
-
-            //Loop through all the fields of the type
-            foreach (var f in T.GetFields())
+            else if (T.IsClass)
             {
-                //If the JSONObject contains information for that field,
-                //set the value of the return object's field to that information.
-                if (toMap.Pairs.ContainsKey(f.Name))
+                //Loop through all the properties of the type
+                foreach (var p in T.GetProperties())
                 {
-                    f.SetValue(toReturn, MapValue(f.FieldType, toMap[f.Name]));
+                    //If the JSONObject contains information for that property,
+                    //set the value of the return object's property to that information.
+                    if (toMap.Pairs.ContainsKey(p.Name))
+                    {
+                        p.SetValue(toReturn, MapValue(p.PropertyType, toMap[p.Name]));
+                    }
+                }
+
+                //Loop through all the fields of the type
+                foreach (var f in T.GetFields())
+                {
+                    //If the JSONObject contains information for that field,
+                    //set the value of the return object's field to that information.
+                    if (toMap.Pairs.ContainsKey(f.Name))
+                    {
+                        f.SetValue(toReturn, MapValue(f.FieldType, toMap[f.Name]));
+                    }
                 }
             }
 

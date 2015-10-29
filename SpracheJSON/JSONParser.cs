@@ -61,19 +61,14 @@ namespace SpracheJSON
                                    (exp.IsDefined ? exp.Get() : ""),
                                    LiteralType.Number);
 
+        static List<char> EscapeChars = new List<char> { '\"', '\\', 'b', 'f', 'n', 'r', 't' };
+
         /// <summary>
         /// Parses a control char, which is a character preceded by the escape character '\'
         /// </summary>
         static readonly Parser<char> ControlChar =
             from first in Parse.Char('\\')
-            from next in Parse.Char('\"')
-                         .Or(Parse.Char('\\'))
-                         .Or(Parse.Char('/'))
-                         .Or(Parse.Char('b'))
-                         .Or(Parse.Char('f'))
-                         .Or(Parse.Char('n'))
-                         .Or(Parse.Char('r'))
-                         .Or(Parse.Char('t'))
+            from next in Parse.EnumerateInput(EscapeChars, c => Parse.Char(c))
             select ((next == 't') ? '\t' :
                     (next == 'r') ? '\r' :
                     (next == 'n') ? '\n' :

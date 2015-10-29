@@ -49,8 +49,10 @@ namespace SpracheJSON
             //Loop through all the elements in the collection
             foreach (var element in (IList)toWrite)
             {
-                //Write the serialized element
-                toReturn += WriteValue(T.GetElementType(), element) + ",\r\n";
+				//Write the serialized element
+				var e = T.GetElementType();
+				var et = element.GetType();
+                toReturn += WriteValue(et, element) + ",\r\n";
             }
 
             //Return a properly formatted JSON array
@@ -100,7 +102,7 @@ namespace SpracheJSON
             //If it's null, go ahead and return that
             if (toWrite == null) return "null";
             //Otherwise, find the right type
-            else if (T.IsArray || T.GetInterface("System.Collections.IList") != null) return WriteArray(T, toWrite);
+            else if (T.GetInterface("System.Collections.IList") != null || T.IsArray) return WriteArray(T, toWrite);
             else if (T.IsPrimitive || T.IsEquivalentTo(typeof(string)) || T.IsEquivalentTo(typeof(bool))) return WriteLiteral(T, toWrite);
             else return WriteObject(T, toWrite);
         }
