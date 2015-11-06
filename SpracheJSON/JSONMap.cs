@@ -16,17 +16,26 @@ namespace SpracheJSON
         /// <returns>An object of type T containing the JSON information</returns>
         static object MapObject(Type T, JSONObject toMap)
         {
-            //Create an instance of the object
-            var toReturn = Activator.CreateInstance(T);
-
             if (T.IsSubclassOf(typeof(IDictionary)))
             {
-                //How do I get this into a dictionary?
+				//Create an instance of the object as an IDictionary
+				var toReturn = (IDictionary)Activator.CreateInstance(T);
+
+				//Treat the object like a dictionary, and add each element to it as a key, value pair.
+				foreach (var p in toMap.Pairs)
+				{
+					toReturn.Add(p.Key, MapValue(T.GenericTypeArguments[1], p.Value));
+                }
+
+				return toReturn;
             }
             else if (T.IsClass)
-            {
-                //Loop through all the properties of the type
-                foreach (var p in T.GetProperties())
+			{
+				//Create an instance of the object
+				var toReturn = Activator.CreateInstance(T);
+
+				//Loop through all the properties of the type
+				foreach (var p in T.GetProperties())
                 {
                     //If the JSONObject contains information for that property,
                     //set the value of the return object's property to that information.
@@ -45,10 +54,12 @@ namespace SpracheJSON
                     {
                         f.SetValue(toReturn, MapValue(f.FieldType, toMap[f.Name]));
                     }
-                }
-            }
+				}
 
-            return toReturn;
+				return toReturn;
+			}
+
+			return null;
         }
 
         /// <summary>
