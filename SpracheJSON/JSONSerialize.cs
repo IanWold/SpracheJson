@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace SpracheJSON
 {
@@ -18,19 +19,26 @@ namespace SpracheJSON
         {
             var toReturn = "";
 
-            //Loop through all the properties of the type
-            foreach (var p in T.GetProperties())
-            {
-                //Write the property and the serialization of its value in the appropriate format
-                toReturn += "\"" + p.Name + "\": " + WriteValue(p.PropertyType, p.GetValue(toWrite)) + ",\r\n";
-            }
+			if (T.IsSubclassOf(typeof(IDictionary)))
+			{
+				//This is weird
+			}
+            else if (T.IsClass)
+			{
+				//Loop through all the properties of the type
+				foreach (var p in T.GetProperties())
+				{
+					//Write the property and the serialization of its value in the appropriate format
+					toReturn += "\"" + p.Name + "\": " + WriteValue(p.PropertyType, p.GetValue(toWrite)) + ",\r\n";
+				}
 
-            //Loop through all the fields of the type
-            foreach (var f in T.GetFields())
-            {
-                //Write the field and the serialization of its value in the appropriate format
-                toReturn += "\"" + f.Name + "\": " + WriteValue(f.FieldType, f.GetValue(toWrite)) + ",\r\n";
-            }
+				//Loop through all the fields of the type
+				foreach (var f in T.GetFields())
+				{
+					//Write the field and the serialization of its value in the appropriate format
+					toReturn += "\"" + f.Name + "\": " + WriteValue(f.FieldType, f.GetValue(toWrite)) + ",\r\n";
+				}
+			}
 
             //Return a properly formatted JSON object
             return "{\r\n" + JSON.Tabify(toReturn.Substring(0, toReturn.Length - 3)) + "\r\n}";
