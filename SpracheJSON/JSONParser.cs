@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sprache;
+using System;
 
 namespace SpracheJSON
 {
@@ -62,13 +63,30 @@ namespace SpracheJSON
                                    LiteralType.Number);
 
         static List<char> EscapeChars = new List<char> { '\"', '\\', 'b', 'f', 'n', 'r', 't' };
+		
+		static Parser<U> EnumerateInput<T, U>(T[] input, Func<T, Parser<U>> parser)
+		{
+			if (input == null || input.Length == 0) throw new ArgumentNullException("input");
+			if (parser == null) throw new ArgumentNullException("parser");
 
-        /// <summary>
-        /// Parses a control char, which is a character preceded by the escape character '\'
-        /// </summary>
-        static readonly Parser<char> ControlChar =
+			return i =>
+			{
+				foreach (var inp in input)
+				{
+					var res = parser(inp)(i);
+					if (res.WasSuccessful) return res;
+				}
+
+				return Result.Failure<U>(null, null, null);
+			};
+		}
+
+		/// <summary>
+		/// Parses a control char, which is a character preceded by the escape character '\'
+		/// </summary>
+		static readonly Parser<char> ControlChar =
             from first in Parse.Char('\\')
-            from next in Parse.EnumerateInput(EscapeChars, c => Parse.Char(c))
+            from next in EnumerateInput(EscapeChars.ToArray(), c => Parse.Char(c))
             select ((next == 't') ? '\t' :
                     (next == 'r') ? '\r' :
                     (next == 'n') ? '\n' :
