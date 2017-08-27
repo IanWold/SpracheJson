@@ -12,8 +12,8 @@ namespace SpracheJSONTest
             var timer = new System.Diagnostics.Stopwatch();
             timer.Start();
 
-            //Parse the JSON
-            var Parsed = new JSONValue();
+			//Parse the JSON
+			IJSONValue Parsed;
             using (var reader = new StreamReader("TestFile.json"))
             {
                 Parsed = JSON.Parse(reader.ReadToEnd());

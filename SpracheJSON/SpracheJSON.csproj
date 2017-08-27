@@ -52,6 +52,7 @@
     <Compile Include="SyntaxTree\JSONLiteral.cs" />
     <Compile Include="SyntaxTree\JSONObject.cs" />
     <Compile Include="SyntaxTree\JSONValue.cs" />
+    <Compile Include="SyntaxTree\LiteralType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

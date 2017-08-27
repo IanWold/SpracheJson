@@ -27,22 +27,22 @@
         }
 
         /// <summary>
-        /// Maps a JSONValue object onto another object
+        /// Maps a IJSONValue object onto another object
         /// </summary>
-        /// <typeparam name="T">The type of object to map the JSONValue onto</typeparam>
-        /// <param name="toMap">The JSONValue to map onto the object</param>
+        /// <typeparam name="T">The type of object to map the IJSONValue onto</typeparam>
+        /// <param name="toMap">The IJSONValue to map onto the object</param>
         /// <returns>An instance of the object containing the JSON information</returns>
-        public static T Map<T>(JSONValue toMap)
+        public static T Map<T>(IJSONValue toMap)
         {
             return (T)JSONMap.MapValue(typeof(T), toMap);
         }
 
         /// <summary>
-        /// Serialize a JSONValue into JSON
+        /// Serialize a IJSONValue into JSON
         /// </summary>
-        /// <param name="toWrite">The JSONValue to be serialized</param>
+        /// <param name="toWrite">The IJSONValue to be serialized</param>
         /// <returns>A string containing the serialized JSON</returns>
-        public static string Write(JSONValue toWrite)
+        public static string Write(IJSONValue toWrite)
         {
             return toWrite.ToJSON();
         }

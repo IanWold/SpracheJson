@@ -6,7 +6,7 @@ namespace SpracheJSON
     /// Represents a literal value in JSON:
     /// A string, number, boolean, or null value
     /// </summary>
-    public class JSONLiteral : JSONValue
+    public class JSONLiteral : IJSONValue
     {
         /// <summary>
         /// A string representation of the value
@@ -44,13 +44,25 @@ namespace SpracheJSON
                 default:
                     return null;
             }
-        }
+		}
 
-        /// <summary>
-        /// Returns a string representing the object in JSON
-        /// </summary>
-        /// <returns></returns>
-        public override string ToJSON()
+		public IJSONValue this[string key]
+		{
+			get { throw new NotImplementedException("Cannot access JSONArray by string."); }
+			set { throw new NotImplementedException("Cannot access JSONArray by string."); }
+		}
+
+		public IJSONValue this[int i]
+		{
+			get { throw new NotImplementedException("Cannot access JSONArray by string."); }
+			set { throw new NotImplementedException("Cannot access JSONArray by string."); }
+		}
+
+		/// <summary>
+		/// Returns a string representing the object in JSON
+		/// </summary>
+		/// <returns></returns>
+		public string ToJSON()
         {
             var toReturn = "";
 
@@ -80,16 +92,5 @@ namespace SpracheJSON
         {
             return Value;
         }
-    }
-
-    /// <summary>
-    /// A list of the types a JSON literal value can be
-    /// </summary>
-    public enum LiteralType
-    {
-        String,
-        Number,
-        Boolean,
-        Null
     }
 }

@@ -4,7 +4,7 @@ using System.Collections;
 namespace SpracheJSON
 {
     /// <summary>
-    /// Maps JSONValue objects onto other objects
+    /// Maps IJSONValue objects onto other objects
     /// </summary>
     static class JSONMap
     {
@@ -124,17 +124,17 @@ namespace SpracheJSON
         }
 
         /// <summary>
-        /// Maps a JSONValue onto an object which can be cast as an appropriate type
+        /// Maps a IJSONValue onto an object which can be cast as an appropriate type
         /// </summary>
         /// <param name="T">The type to which the returned object will be cast</param>
-        /// <param name="toMap">The JSONValue to map onto the object</param>
+        /// <param name="toMap">The IJSONValue to map onto the object</param>
         /// <returns>An object of type T containing the JSON information</returns>
-        public static object MapValue(Type T, JSONValue toMap)
+        public static object MapValue(Type T, IJSONValue toMap)
         {
             if (toMap is JSONObject) return MapObject(T, (JSONObject)toMap);
             else if (toMap is JSONArray) return MapArray(T, (JSONArray)toMap);
             else if (toMap is JSONLiteral) return MapLiteral(T, (JSONLiteral)toMap);
-            else throw new ArgumentException("Cannot map vanilla JSONValue.");
+            else throw new ArgumentException("Cannot map vanilla IJSONValue.");
         }
     }
 }

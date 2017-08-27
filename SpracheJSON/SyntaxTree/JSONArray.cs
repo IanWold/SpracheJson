@@ -7,25 +7,31 @@ namespace SpracheJSON
     /// Represents a JSON array:
     /// A collection of unnamed (anonymous) JSON values
     /// </summary>
-    public class JSONArray : JSONValue
+    public class JSONArray : IJSONValue
     {
         /// <summary>
         /// All the JSON values
         /// </summary>
-        public List<JSONValue> Elements { get; set; }
+        public List<IJSONValue> Elements { get; set; }
 
-        public JSONArray(IEnumerable<JSONValue> elements)
+        public JSONArray(IEnumerable<IJSONValue> elements)
         {
-            Elements = new List<JSONValue>();
+            Elements = new List<IJSONValue>();
             if (elements != null) foreach (var e in elements) Elements.Add(e);
-        }
+		}
 
-        /// <summary>
-        /// Makes Elements directly accessable
-        /// </summary>
-        /// <param name="i">The index of the JSONValue</param>
-        /// <returns>The JSONValue at index i</returns>
-        public override JSONValue this[int i]
+		public IJSONValue this[string key]
+		{
+			get { throw new NotImplementedException("Cannot access JSONArray by string."); }
+			set { throw new NotImplementedException("Cannot access JSONArray by string."); }
+		}
+
+		/// <summary>
+		/// Makes Elements directly accessable
+		/// </summary>
+		/// <param name="i">The index of the IJSONValue</param>
+		/// <returns>The IJSONValue at index i</returns>
+		public IJSONValue this[int i]
         {
             get
             {
@@ -43,7 +49,7 @@ namespace SpracheJSON
         /// Returns a string representing the object in JSON
         /// </summary>
         /// <returns></returns>
-        public override string ToJSON()
+        public string ToJSON()
         {
             var toReturn = "";
             foreach (var e in Elements) toReturn +=  e.ToJSON() + ",\r\n";

@@ -120,7 +120,7 @@ namespace SpracheJSON
         /// <summary>
         /// Parses any JSON value
         /// </summary>
-        static readonly Parser<JSONValue> JValue =
+        static readonly Parser<IJSONValue> JValue =
             Parse.Ref(() => JObject)
             .Or(Parse.Ref(() => JArray))
             .Or(JLiteral);
@@ -128,12 +128,12 @@ namespace SpracheJSON
         /// <summary>
         /// Parses the elements within a JSON array
         /// </summary>
-        static readonly Parser<IEnumerable<JSONValue>> JElements = JValue.DelimitedBy(Parse.Char(',').Token());
+        static readonly Parser<IEnumerable<IJSONValue>> JElements = JValue.DelimitedBy(Parse.Char(',').Token());
 
         /// <summary>
         /// Parses a JSON array
         /// </summary>
-        static readonly Parser<JSONValue> JArray =
+        static readonly Parser<IJSONValue> JArray =
             from first in Parse.Char('[').Token()
             from elements in JElements.Optional()
             from last in Parse.Char(']').Token()
@@ -142,21 +142,21 @@ namespace SpracheJSON
         /// <summary>
         /// Parses a JSON pair
         /// </summary>
-        static readonly Parser<KeyValuePair<string, JSONValue>> JPair =
+        static readonly Parser<KeyValuePair<string, IJSONValue>> JPair =
             from name in JString
             from colon in Parse.Char(':').Token()
             from val in JValue
-            select new KeyValuePair<string, JSONValue>(name.Value, val);
+            select new KeyValuePair<string, IJSONValue>(name.Value, val);
 
         /// <summary>
         /// Parses all the pairs (members) of a JSON object
         /// </summary>
-        static readonly Parser<IEnumerable<KeyValuePair<string, JSONValue>>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
+        static readonly Parser<IEnumerable<KeyValuePair<string, IJSONValue>>> JMembers = JPair.DelimitedBy(Parse.Char(',').Token());
 
         /// <summary>
         /// Parses a JSON object
         /// </summary>
-        static readonly Parser<JSONValue> JObject =
+        static readonly Parser<IJSONValue> JObject =
             from first in Parse.Char('{').Token()
             from members in JMembers.Optional()
             from last in Parse.Char('}').Token()
@@ -166,7 +166,7 @@ namespace SpracheJSON
         /// Parses a JObject
         /// </summary>
         /// <param name="toParse">The text to parse</param>
-        /// <returns>A JSONValue cast as a JSONObject</returns>
+        /// <returns>A IJSONValue cast as a JSONObject</returns>
         public static JSONObject ParseJSON(string toParse)
         {
             return (JSONObject)JObject.Parse(toParse);
