@@ -51,7 +51,7 @@
     <Compile Include="SyntaxTree\JSONArray.cs" />
     <Compile Include="SyntaxTree\JSONLiteral.cs" />
     <Compile Include="SyntaxTree\JSONObject.cs" />
-    <Compile Include="SyntaxTree\JSONValue.cs" />
+    <Compile Include="SyntaxTree\IJSONValue.cs" />
     <Compile Include="SyntaxTree\LiteralType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
