@@ -13,6 +13,11 @@ namespace SpracheJSON
         /// All the JSON values
         /// </summary>
         public List<IJSONValue> Elements { get; set; }
+	
+	public JSONArray()
+	{
+		Elements = new List<IJSONValue>();
+	}
 
         public JSONArray(IEnumerable<IJSONValue> elements)
         {
