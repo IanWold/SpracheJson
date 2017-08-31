@@ -18,7 +18,11 @@ dotnet add package SpracheJSON --version 1.0.0
 
 You can visit the page on the [NuGet Gallery](https://www.nuget.org/packages/SpracheJSON/) too.
 
-# Quick Tutorial
+# Documentation
+
+I have a full, MSDN-style documentation of the library on the [GitHub wiki](https://github.com/IanWold/SpracheJSON/wiki) for this project; all public members of the library are documented there! In future I hope to get some examples and tutorials there.
+
+## Quick Tutorial
 
 SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple syntax tree. Imagine you have the following JSON file in "MyFile.json":
 
