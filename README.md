@@ -2,6 +2,24 @@
 
 SpracheJSON is a JSON parser for C# written with the awesome [Sprache](https://github.com/sprache/Sprache) framework. I built this in much the same vain as [SpracheDown](https://github.com/IanWold/SpracheDown), more as a side project than anything. However, SpracheJSON is a **fully-functioning** JSON parser (as far as I'm aware), and as such you can use it for any of your JSON parsing needs.
 
+# NuGet
+
+Package Manager:
+
+```
+Install-Package SpracheJSON -Version 1.0.0
+```
+
+.NET CLI:
+
+```
+dotnet add package SpracheJSON --version 1.0.0
+```
+
+You can visit the page on the [NuGet Gallery](https://www.nuget.org/packages/SpracheJSON/) too.
+
+# Quick Tutorial
+
 SpracheJSON can parse JSON from a string or from a file. It parses the JSON into a very simple syntax tree. Imagine you have the following JSON file in "MyFile.json":
 
 ```json
