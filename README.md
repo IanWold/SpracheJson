@@ -1,4 +1,4 @@
-# SpracheJSON [![Build Status](https://travis-ci.org/IanWold/SpracheJSON.svg?branch=master)](https://travis-ci.org/IanWold/SpracheJSON)
+# SpracheJSON [![Travis](https://img.shields.io/travis/IanWold/SpracheJSON.svg?style=flat-square)](https://travis-ci.org/IanWold/SpracheJSON)
 
 SpracheJSON is a JSON parser for C# written with the awesome [Sprache](https://github.com/sprache/Sprache) framework. I built this in much the same vain as [SpracheDown](https://github.com/IanWold/SpracheDown), more as a side project than anything. However, SpracheJSON is a **fully-functioning** JSON parser (as far as I'm aware), and as such you can use it for any of your JSON parsing needs.
 
