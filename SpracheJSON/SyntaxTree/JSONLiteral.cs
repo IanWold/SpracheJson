@@ -18,6 +18,11 @@ namespace SpracheJSON
         /// </summary>
         public LiteralType ValueType { get; set; }
 
+		public JSONLiteral(LiteralType type)
+		{
+			ValueType = type;
+		}
+
         public JSONLiteral(string value, LiteralType type)
         {
             Value = value;

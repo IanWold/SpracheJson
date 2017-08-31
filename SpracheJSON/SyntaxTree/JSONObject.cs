@@ -14,6 +14,11 @@ namespace SpracheJSON
         /// </summary>
         public Dictionary<string, IJSONValue> Pairs { get; set; }
 
+		public JSONObject()
+		{
+			Pairs = new Dictionary<string, IJSONValue>();
+		}
+
         public JSONObject(IEnumerable<KeyValuePair<string, IJSONValue>> pairs)
         {
             Pairs = new Dictionary<string, IJSONValue>();
