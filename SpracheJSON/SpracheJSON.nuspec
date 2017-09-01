@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SpracheJSON</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>IanWold</authors>
+    <owners>IanWold</owners>
+    <licenseUrl>http://github.com/IanWold/SpracheJSON/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>http://github.com/IanWold/SpracheJSON</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A lightweight, fully-featured JSON parser using Sprache</description>
+    <releaseNotes>First release!</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>json sprache parser serialize serializer serializing map mapper mapping</tags>
+  </metadata>
+</package>
