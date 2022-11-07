@@ -1,0 +1,32 @@
+﻿{
+  "FirstName": "John",
+  "LastName": "Smith",
+  "Age": 25,
+  "Address": {
+    "StreetAddress": "21 2nd Street",
+    "City": "New York",
+    "State": "NY",
+    "PostalCode": "10021"
+  },
+  "PhoneNumber": [
+    {
+      "Type": "home",
+      "Number": "212 555-1239"
+    },
+    {
+      "Type": "fax",
+      "Number": "646 555-4567"
+    }
+  ],
+  "MyArray": [
+    "Hello",
+    "this",
+    "is",
+    "a",
+    "test"
+  ],
+  "MyNumber": 3.56e+6,
+  "MyLiteral": "Hello \\ This is\" very cool \t don't you think",
+  "MyBoolean": true,
+  "MyNullable": null
+}
