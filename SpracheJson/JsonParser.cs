@@ -5,7 +5,7 @@ namespace SpracheJson;
 /// <summary>
 /// Contains the entire JSON Parser
 /// </summary>
-static class JSONParser
+static class JsonParser
 {
 	static readonly List<char> _escapeChars = new() { '\"', '\\', 'b', 'f', 'n', 'r', 't' };
 

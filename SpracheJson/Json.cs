@@ -3,7 +3,7 @@
 /// <summary>
 /// Interfaces kindly with the parser and mapper
 /// </summary>
-public static class JSON
+public static class Json
 {
 	/// <summary>
 	/// Parse a string into a JSONObject
@@ -11,7 +11,7 @@ public static class JSON
 	/// <param name="toParse">The string (document) to be parsed</param>
 	/// <returns>A JSONObject representing the JSON document</returns>
 	public static JsonObject Parse(string toParse) =>
-		JSONParser.ParseJSON(toParse);
+		JsonParser.ParseJSON(toParse);
 
 	/// <summary>
 	/// Parses a string into a JSONObject, then maps that onto an object
