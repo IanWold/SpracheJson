@@ -10,7 +10,8 @@ public static class JSON
 	/// </summary>
 	/// <param name="toParse">The string (document) to be parsed</param>
 	/// <returns>A JSONObject representing the JSON document</returns>
-	public static JsonObject Parse(string toParse) => JSONParser.ParseJSON(toParse);
+	public static JsonObject Parse(string toParse) =>
+		JSONParser.ParseJSON(toParse);
 
 	/// <summary>
 	/// Parses a string into a JSONObject, then maps that onto an object
@@ -18,7 +19,8 @@ public static class JSON
 	/// <typeparam name="T">The type of object to map the JSON onto</typeparam>
 	/// <param name="toMap">The string containing the JSON to be mapped</param>
 	/// <returns>An instance of the object containing the JSON information</returns>
-	public static T Deserialize<T>(string toMap) => Map<T>(Parse(toMap));
+	public static T Deserialize<T>(string toMap) =>
+		Map<T>(Parse(toMap));
 
 	/// <summary>
 	/// Maps a IJSONValue object onto another object
