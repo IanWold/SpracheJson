@@ -6,21 +6,16 @@
 /// </summary>
 public class JsonObject : IJsonValue
 {
+	public JsonObject() =>
+		Pairs = new();
+
+	public JsonObject(IEnumerable<KeyValuePair<string, IJsonValue>>? pairs) =>
+		Pairs = new(pairs ?? Enumerable.Empty<KeyValuePair<string, IJsonValue>>());
+
 	/// <summary>
 	/// All the JSON pair objects
 	/// </summary>
 	public Dictionary<string, IJsonValue> Pairs { get; set; }
-
-	public JsonObject()
-	{
-		Pairs = new Dictionary<string, IJsonValue>();
-	}
-
-	public JsonObject(IEnumerable<KeyValuePair<string, IJsonValue>> pairs)
-	{
-		Pairs = new Dictionary<string, IJsonValue>();
-		if (pairs != null) foreach (var p in pairs) Pairs.Add(p.Key, p.Value);
-	}
 
 	/// <summary>
 	/// Makes Pairs directly accessable
@@ -29,33 +24,34 @@ public class JsonObject : IJsonValue
 	/// <returns>The IJSONValue at that key</returns>
 	public IJsonValue this[string key]
 	{
-		get
-		{
-			if (Pairs.ContainsKey(key)) return Pairs[key];
-			else throw new ArgumentException("Key not found: " + key);
-		}
-		set
-		{
-			if (Pairs.ContainsKey(key)) Pairs[key] = value;
-			else throw new ArgumentException("Key not found: " + key);
-		}
+		get =>
+			Pairs.ContainsKey(key)
+				? Pairs[key]
+				: throw new ArgumentException("Key not found: " + key);
+		set =>
+			Pairs[key] =
+				Pairs.ContainsKey(key)
+					? value
+					: throw new ArgumentException("Key not found: " + key);
 	}
 
 	public IJsonValue this[int i]
 	{
-		get { throw new NotImplementedException("Cannot access JSONArray by string."); }
-		set { throw new NotImplementedException("Cannot access JSONArray by string."); }
+		get =>
+			i >= 0 && i < Pairs.Count
+				? Pairs.ElementAt(i).Value
+				: throw new IndexOutOfRangeException($"{i} is outside the bounds of the JsonObject.");
+		set =>
+			Pairs[Pairs.ElementAt(i).Key] =
+				i >= 0 && i < Pairs.Count
+					? value
+					: throw new IndexOutOfRangeException($"{i} is outside the bounds of the JsonObject.");
 	}
 
 	/// <summary>
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	public string ToJson()
-	{
-		var toReturn = "";
-		foreach (var p in Pairs) toReturn += $"\"{p.Key}\": {p.Value.ToJson()},\r\n";
-		toReturn = JSON.Tabify(toReturn[..^3]);
-		return $"{{\r\n{toReturn}\r\n}}";
-	}
+	public string ToJson() =>
+		$"{{\r\n{string.Concat(Pairs.Select(p => $"\"{p.Key}\": {p.Value.ToJson()},\r\n"))[..^3].Tabify()}\r\n}}";
 }

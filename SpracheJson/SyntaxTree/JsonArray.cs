@@ -6,27 +6,16 @@
 /// </summary>
 public class JsonArray : IJsonValue
 {
+	public JsonArray() =>
+		Elements = new();
+
+	public JsonArray(IEnumerable<IJsonValue>? elements) =>
+		Elements = new(elements ?? Enumerable.Empty<IJsonValue>());
+
 	/// <summary>
 	/// All the JSON values
 	/// </summary>
 	public List<IJsonValue> Elements { get; set; }
-
-	public JsonArray()
-	{
-		Elements = new List<IJsonValue>();
-	}
-
-	public JsonArray(IEnumerable<IJsonValue> elements)
-	{
-		Elements = new List<IJsonValue>();
-		if (elements != null) foreach (var e in elements) Elements.Add(e);
-	}
-
-	public IJsonValue this[string key]
-	{
-		get { throw new NotImplementedException("Cannot access JSONArray by string."); }
-		set { throw new NotImplementedException("Cannot access JSONArray by string."); }
-	}
 
 	/// <summary>
 	/// Makes Elements directly accessable
@@ -35,27 +24,21 @@ public class JsonArray : IJsonValue
 	/// <returns>The IJSONValue at index i</returns>
 	public IJsonValue this[int i]
 	{
-		get
-		{
-			if (0 <= i && i < Elements.Count) return Elements[i];
-			else throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
-		}
-		set
-		{
-			if (0 <= i && i < Elements.Count) Elements[i] = value;
-			else throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
-		}
+		get =>
+			i >= 0 && i < Elements.Count
+				? Elements[i]
+				: throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
+		set =>
+			Elements[i] =
+				i >= 0 && i < Elements.Count
+					? value
+					: throw new IndexOutOfRangeException(i.ToString() + " is out of range.");
 	}
 
 	/// <summary>
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	public string ToJson()
-	{
-		var toReturn = "";
-		foreach (var e in Elements) toReturn += $"{e.ToJson()},\r\n";
-		toReturn = JSON.Tabify(toReturn[..^3]);
-		return $"[\r\n{toReturn}\r\n]";
-	}
+	public string ToJson() =>
+		$"[\r\n{string.Concat(Elements.Select(e => $"{e.ToJson()},\r\n"))[..^3].Tabify()}\r\n]";
 }

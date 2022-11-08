@@ -6,93 +6,49 @@
 /// </summary>
 public class JsonLiteral : IJsonValue
 {
-	/// <summary>
-	/// A string representation of the value
-	/// </summary>
-	public string Value { get; set; }
-
-	/// <summary>
-	/// The type the value is
-	/// </summary>
-	public JsonLiteralType ValueType { get; set; }
-
-	public JsonLiteral(JsonLiteralType type)
-	{
-		ValueType = type;
-	}
-
-	public JsonLiteral(string value, JsonLiteralType type)
+	public JsonLiteral(string? value, JsonLiteralType type)
 	{
 		Value = value;
 		ValueType = type;
 	}
 
 	/// <summary>
+	/// A string representation of the value
+	/// </summary>
+	public string? Value { get; set; }
+
+	/// <summary>
+	/// The type the value is
+	/// </summary>
+	public JsonLiteralType ValueType { get; set; }
+
+	/// <summary>
 	/// Returns Value cast as the appropriate type.
 	/// </summary>
 	/// <returns></returns>
-	public object Get()
+	public object? Get() => ValueType switch
 	{
-		switch (ValueType)
-		{
-			case JsonLiteralType.String:
-				return Value;
-
-			case JsonLiteralType.Number:
-				return Convert.ToDouble(Value);
-
-			case JsonLiteralType.Boolean:
-				return (Value.ToLower() == "true") ? true : false;
-
-			default:
-				return null;
-		}
-	}
-
-	public IJsonValue this[string key]
-	{
-		get { throw new NotImplementedException("Cannot access JSONArray by string."); }
-		set { throw new NotImplementedException("Cannot access JSONArray by string."); }
-	}
-
-	public IJsonValue this[int i]
-	{
-		get { throw new NotImplementedException("Cannot access JSONArray by string."); }
-		set { throw new NotImplementedException("Cannot access JSONArray by string."); }
-	}
+		JsonLiteralType.String => Value,
+		JsonLiteralType.Number => Convert.ToDouble(Value),
+		JsonLiteralType.Boolean => Value?.ToLower() == "true",
+		_ => null,
+	};
 
 	/// <summary>
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	public string ToJson()
+	public string ToJson() => ValueType switch
 	{
-		var toReturn = "";
-
-		switch (ValueType)
-		{
-			case JsonLiteralType.String:
-				toReturn = "\"" + JSON.GetJSONString(Value) + "\"";
-				break;
-
-			case JsonLiteralType.Null:
-				toReturn = "null";
-				break;
-
-			default:
-				toReturn = Value;
-				break;
-		}
-
-		return toReturn;
-	}
+		JsonLiteralType.String => $"\"{Value?.ToJsonString()}\"",
+		JsonLiteralType.Null => "null",
+		_ => Value ?? string.Empty,
+	};
 
 	/// <summary>
 	/// Returns the Value property
 	/// </summary>
 	/// <returns>this.Value</returns>
-	public override string ToString()
-	{
-		return Value;
-	}
+	public override string ToString() =>
+		Value ?? string.Empty;
 }

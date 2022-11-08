@@ -109,7 +109,7 @@ static class JsonSerializer
 	/// <param name="T">The type of object to be serialized</param>
 	/// <param name="toWrite">The object to be serialized</param>
 	/// <returns>A string containing the serialized JSON text</returns>
-	public static string SerializeValue(Type T, object toWrite)
+	public static string SerializeValue(Type T, object? toWrite)
 	{
 		//If it's null, go ahead and return that
 		if (toWrite == null)
