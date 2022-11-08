@@ -51,11 +51,11 @@ public class JsonArray : IJsonValue
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	public string ToJSON()
+	public string ToJson()
 	{
 		var toReturn = "";
-		foreach (var e in Elements) toReturn += e.ToJSON() + ",\r\n";
-		toReturn = JSON.Tabify(toReturn.Substring(0, toReturn.Length - 3));
-		return "[\r\n" + toReturn + "\r\n]";
+		foreach (var e in Elements) toReturn += $"{e.ToJson()},\r\n";
+		toReturn = JSON.Tabify(toReturn[..^3]);
+		return $"[\r\n{toReturn}\r\n]";
 	}
 }

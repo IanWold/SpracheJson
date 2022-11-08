@@ -52,7 +52,7 @@ public static class JSON
 	/// <returns>A string containing the serialized JSON</returns>
 	public static string Write(IJsonValue toWrite)
 	{
-		return toWrite.ToJSON();
+		return toWrite.ToJson();
 	}
 
 	/// <summary>

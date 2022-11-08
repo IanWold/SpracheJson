@@ -65,7 +65,7 @@ public class JsonLiteral : IJsonValue
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	public string ToJSON()
+	public string ToJson()
 	{
 		var toReturn = "";
 

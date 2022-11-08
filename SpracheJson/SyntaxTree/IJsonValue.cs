@@ -23,5 +23,5 @@ public interface IJsonValue
 	/// Returns a string representing the object in JSON
 	/// </summary>
 	/// <returns></returns>
-	string ToJSON();
+	string ToJson();
 }
